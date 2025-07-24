@@ -1,98 +1,114 @@
-function calcMolarity() {
-  const mass = parseFloat(document.getElementById('mass').value);
-  const molarMass = parseFloat(document.getElementById('molarMass').value);
-  const volume = parseFloat(document.getElementById('volume').value);
-  const result = (mass / molarMass) / volume;
-  document.getElementById('molarityResult').innerText = `Molarity = ${result.toFixed(3)} M`;
+// MOLARITY
+function calculateMolarity() {
+  const mass = parseFloat(document.getElementById("mass").value);
+  const molarMass = parseFloat(document.getElementById("molarMass").value);
+  const volume = parseFloat(document.getElementById("volume").value);
+  if (mass && molarMass && volume) {
+    const molarity = mass / molarMass / volume;
+    document.getElementById("molarityResult").innerText = molarity.toFixed(3) + " M";
+  }
 }
 
-function calcDilution() {
-  const c1 = parseFloat(document.getElementById('c1').value);
-  const v1 = parseFloat(document.getElementById('v1').value);
-  const c2 = parseFloat(document.getElementById('c2').value);
-  const v2 = (c1 * v1) / c2;
-  document.getElementById('dilutionResult').innerText = `V2 = ${v2.toFixed(3)} units`;
+// DILUTION
+function calculateDilution() {
+  const c1 = parseFloat(document.getElementById("c1").value);
+  const v1 = parseFloat(document.getElementById("v1").value);
+  const c2 = parseFloat(document.getElementById("c2").value);
+  if (c1 && v1 && c2) {
+    const v2 = (c1 * v1) / c2;
+    document.getElementById("dilutionResult").innerText = "Final Volume (V2): " + v2.toFixed(2) + " L";
+  }
 }
 
-function calcMg() {
-  const ul = parseFloat(document.getElementById('ul').value);
-  const density = parseFloat(document.getElementById('density').value);
-  const mg = ul * density;
-  document.getElementById('mgResult').innerText = `Mass = ${mg.toFixed(3)} mg`;
+// TEMPERATURE
+function convertTemperature() {
+  const celsius = parseFloat(document.getElementById("celsius").value);
+  if (!isNaN(celsius)) {
+    const fahrenheit = (celsius * 9/5) + 32;
+    document.getElementById("tempResult").innerText = fahrenheit.toFixed(2) + " °F";
+  }
 }
 
-function convertTemp() {
-  const c = parseFloat(document.getElementById('celsius').value);
-  const f = (c * 9/5) + 32;
-  document.getElementById('tempResult').innerText = `${c}°C = ${f.toFixed(2)}°F`;
-}
-
+// DNA: ng/uL to nM
 function convertDNA() {
-  const conc = parseFloat(document.getElementById('dnaConc').value);
-  const length = parseFloat(document.getElementById('dnaLength').value);
-  const nM = (conc * 1e6) / (660 * length);
-  document.getElementById('dnaResult').innerText = `${nM.toFixed(2)} nM`;
-}
-
-function calcPH() {
-  const h = parseFloat(document.getElementById('hConc').value);
-  const ph = -Math.log10(h);
-  document.getElementById('phResult').innerText = `pH = ${ph.toFixed(2)}`;
-}
-
-function serialDilution() {
-  let c = parseFloat(document.getElementById('serialC').value);
-  const f = parseFloat(document.getElementById('serialF').value);
-  const n = parseInt(document.getElementById('serialN').value);
-  let results = '';
-  for (let i = 0; i < n; i++) {
-    results += `Step ${i + 1}: ${c.toFixed(4)}<br>`;
-    c /= f;
+  const concentration = parseFloat(document.getElementById("dnaConc").value);
+  const length = parseFloat(document.getElementById("dnaLength").value);
+  if (concentration && length) {
+    const nM = (concentration * 1e6) / (660 * length);
+    document.getElementById("dnaResult").innerText = nM.toFixed(2) + " nM";
   }
-  document.getElementById('serialResult').innerHTML = results;
 }
 
-function calcOD() {
-  const od = parseFloat(document.getElementById('od').value);
-  const factor = parseFloat(document.getElementById('odFactor').value);
-  const conc = od * factor;
-  document.getElementById('odResult').innerText = `Conc = ${conc.toFixed(2)}`;
+// pH from H+ concentration
+function calculatepH() {
+  const hConc = parseFloat(document.getElementById("hConc").value);
+  if (hConc > 0) {
+    const pH = -Math.log10(hConc);
+    document.getElementById("phResult").innerText = "pH = " + pH.toFixed(2);
+  }
 }
 
-function calcMolarMass() {
-  const mass = parseFloat(document.getElementById('mmMass').value);
-  const moles = parseFloat(document.getElementById('mmMoles').value);
-  const mm = mass / moles;
-  document.getElementById('mmResult').innerText = `Molar Mass = ${mm.toFixed(2)} g/mol`;
+// Serial Dilution (10x for now)
+function calculateSerialDilution() {
+  const initialConc = parseFloat(document.getElementById("initialConc").value);
+  const dilutions = parseInt(document.getElementById("dilutionSteps").value);
+  if (initialConc && dilutions > 0) {
+    let output = "";
+    let conc = initialConc;
+    for (let i = 1; i <= dilutions; i++) {
+      conc /= 10;
+      output += `Step ${i}: ${conc.toExponential(2)}<br>`;
+    }
+    document.getElementById("serialResult").innerHTML = output;
+  }
 }
 
-// Timer
-let timer;
-let seconds = 0;
-
-function updateTimer() {
-  const min = String(Math.floor(seconds / 60)).padStart(2, '0');
-  const sec = String(seconds % 60).padStart(2, '0');
-  document.getElementById('timer').innerText = `${min}:${sec}`;
+// Mass to Moles
+function convertToMoles() {
+  const mass = parseFloat(document.getElementById("massMole").value);
+  const molarMass = parseFloat(document.getElementById("molarMassMole").value);
+  if (mass && molarMass) {
+    const moles = mass / molarMass;
+    document.getElementById("molesResult").innerText = moles.toFixed(3) + " mol";
+  }
 }
 
+// Volume from Moles
+function calculateVolumeFromMoles() {
+  const moles = parseFloat(document.getElementById("molesVol").value);
+  const molarity = parseFloat(document.getElementById("molarityVol").value);
+  if (moles && molarity) {
+    const volume = moles / molarity;
+    document.getElementById("volumeResult").innerText = volume.toFixed(2) + " L";
+  }
+}
+
+// Percent Solution
+function calculatePercentSolution() {
+  const solute = parseFloat(document.getElementById("solute").value);
+  const solution = parseFloat(document.getElementById("solution").value);
+  if (solute && solution) {
+    const percent = (solute / solution) * 100;
+    document.getElementById("percentResult").innerText = percent.toFixed(2) + " %";
+  }
+}
+
+// TIMER
+let timerInterval;
 function startTimer() {
-  if (!timer) {
-    timer = setInterval(() => {
-      seconds++;
-      updateTimer();
-    }, 1000);
-  }
-}
-
-function pauseTimer() {
-  clearInterval(timer);
-  timer = null;
-}
-
-function resetTimer() {
-  pauseTimer();
-  seconds = 0;
-  updateTimer();
+  const mins = parseInt(document.getElementById("minutes").value);
+  const secs = parseInt(document.getElementById("seconds").value);
+  let total = mins * 60 + secs;
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    const m = Math.floor(total / 60);
+    const s = total % 60;
+    document.getElementById("timer").innerText = `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+    total--;
+    if (total < 0) {
+      clearInterval(timerInterval);
+      alert("Time's up!");
+    }
+  }, 1000);
 }
 
