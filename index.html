@@ -1,120 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BioConverter</title>
-  <link rel="icon" type="image/x-icon" href="favicon.ico" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
   <header>
-    <div class="title">
-      <img src="bioconverter-logo.png" alt="Logo" />
-      BioConverter
-    </div>
-    <div class="tagline">Calculator for science people 🧪</div>
+    <img src="bioconverter-logo.png" alt="BioConverter Logo" class="logo">
+    <h1>BioConverter</h1>
+    <p class="tagline">Smart Calculators for Science People</p>
   </header>
 
-  <div id="timer">00:00</div>
-  <div class="timer-buttons">
-    <button onclick="startTimer()">Start</button>
-    <button onclick="pauseTimer()">Pause</button>
-    <button onclick="resetTimer()">Reset</button>
-  </div>
+  <main>
+    <section class="calculator-panel">
+      <select id="toolSelector">
+        <option value="molarity">Molarity Calculator</option>
+        <option value="dilution">Dilution Calculator</option>
+        <option value="temperature">Temperature Converter</option>
+        <option value="dna">DNA Concentration Converter</option>
+        <option value="ph">pH Calculator</option>
+        <option value="serial">Serial Dilution Calculator</option>
+        <option value="mass">Mass from Volume & Molarity</option>
+        <option value="volume">Volume from Mass & Molarity</option>
+        <option value="molarity-from-mass">Molarity from Mass & Volume</option>
+      </select>
 
-  <div class="container">
+      <div id="calculatorContainer"></div>
+    </section>
 
-    <!-- Molarity Calculator -->
-    <div class="card">
-      <h2>Molarity Calculator</h2>
-      <div class="input-row">
-        <label>Mass (g):</label><input id="mass" type="number" />
-      </div>
-      <div class="input-row">
-        <label>Molar Mass (g/mol):</label><input id="molarMass" type="number" />
-      </div>
-      <div class="input-row">
-        <label>Volume (L):</label><input id="volume" type="number" />
-      </div>
-      <button onclick="calcMolarity()">Calculate</button>
-      <div class="result" id="molarityResult"></div>
-    </div>
+    <aside class="timer-panel">
+      <h2>Set Timer</h2>
+      <input type="number" id="timerInput" placeholder="Minutes">
+      <button onclick="startTimer()">Start</button>
+      <div id="timerDisplay">00:00</div>
+    </aside>
+  </main>
 
-    <!-- Dilution Calculator -->
-    <div class="card">
-      <h2>Dilution Calculator</h2>
-      <div class="input-row"><label>C1:</label><input id="c1" type="number" /></div>
-      <div class="input-row"><label>V1:</label><input id="v1" type="number" /></div>
-      <div class="input-row"><label>C2:</label><input id="c2" type="number" /></div>
-      <button onclick="calcDilution()">Calculate V2</button>
-      <div class="result" id="dilutionResult"></div>
-    </div>
-
-    <!-- µL ↔ mg Converter -->
-    <div class="card">
-      <h2>µL ↔ mg Converter</h2>
-      <div class="input-row"><label>µL:</label><input id="ul" type="number" /></div>
-      <div class="input-row"><label>Density (mg/µL):</label><input id="density" type="number" /></div>
-      <button onclick="calcMg()">Calculate</button>
-      <div class="result" id="mgResult"></div>
-    </div>
-
-    <!-- Temperature Converter -->
-    <div class="card">
-      <h2>Temperature Converter</h2>
-      <div class="input-row"><label>Celsius:</label><input id="celsius" type="number" /></div>
-      <button onclick="convertTemp()">Convert</button>
-      <div class="result" id="tempResult"></div>
-    </div>
-
-    <!-- DNA Concentration -->
-    <div class="card">
-      <h2>DNA ng/µL to nM</h2>
-      <div class="input-row"><label>Conc (ng/µL):</label><input id="dnaConc" type="number" /></div>
-      <div class="input-row"><label>Length (bp):</label><input id="dnaLength" type="number" /></div>
-      <button onclick="convertDNA()">Convert</button>
-      <div class="result" id="dnaResult"></div>
-    </div>
-
-    <!-- pH Calculator -->
-    <div class="card">
-      <h2>pH Calculator</h2>
-      <div class="input-row"><label>[H+] (mol/L):</label><input id="hConc" type="number" /></div>
-      <button onclick="calcPH()">Calculate</button>
-      <div class="result" id="phResult"></div>
-    </div>
-
-    <!-- Serial Dilution -->
-    <div class="card">
-      <h2>Serial Dilution</h2>
-      <div class="input-row"><label>Initial Conc:</label><input id="serialC" type="number" /></div>
-      <div class="input-row"><label>Factor:</label><input id="serialF" type="number" /></div>
-      <div class="input-row"><label>Steps:</label><input id="serialN" type="number" /></div>
-      <button onclick="serialDilution()">Generate</button>
-      <div class="result" id="serialResult"></div>
-    </div>
-
-    <!-- OD ↔ Concentration -->
-    <div class="card">
-      <h2>OD ↔ Conc.</h2>
-      <div class="input-row"><label>OD:</label><input id="od" type="number" /></div>
-      <div class="input-row"><label>Factor:</label><input id="odFactor" type="number" /></div>
-      <button onclick="calcOD()">Convert</button>
-      <div class="result" id="odResult"></div>
-    </div>
-
-    <!-- Molar Mass Calc -->
-    <div class="card">
-      <h2>Molar Mass from Mass & Moles</h2>
-      <div class="input-row"><label>Mass (g):</label><input id="mmMass" type="number" /></div>
-      <div class="input-row"><label>Moles (mol):</label><input id="mmMoles" type="number" /></div>
-      <button onclick="calcMolarMass()">Calculate</button>
-      <div class="result" id="mmResult"></div>
-    </div>
-
-  </div>
+  <footer>
+    <p>&copy; 2025 BioConverter. All rights reserved.</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>
+
 </html>
