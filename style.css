@@ -1,101 +1,145 @@
-<style>
-  body {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #ecfdf5;
-    margin: 0;
-    padding: 0;
+/* Reset and base styles */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f8f4;
+  margin: 0;
+  padding: 0;
+  color: #222;
+}
+
+/* Header */
+header {
+  display: flex;
+  align-items: center;
+  background-color: #3eaf7c;
+  color: white;
+  padding: 10px 20px;
+  flex-wrap: wrap;
+}
+
+header img {
+  height: 40px;
+  margin-right: 10px;
+}
+
+header h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.tagline {
+  font-size: 14px;
+  margin-left: auto;
+  color: #e0f5e8;
+  font-weight: 400;
+  max-width: 100%;
+  padding-left: 10px;
+}
+
+/* Main layout */
+main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  padding: 20px;
+}
+
+/* Tools and Timer Containers */
+.tools, .timer {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  flex: 1 1 480px;
+  max-width: 600px;
+}
+
+/* Accordion sections */
+details {
+  margin: 10px 0;
+  border: 2px solid #3eaf7c;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: #fafffa;
+}
+
+details[open] summary {
+  font-weight: bold;
+}
+
+summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+/* Calculator UI inside details */
+.calculator {
+  margin-top: 10px;
+}
+
+input, select, button {
+  padding: 8px;
+  margin: 6px 0;
+  width: 100%;
+  max-width: 300px;
+  font-size: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background-color: #3eaf7c;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #369867;
+}
+
+/* Timer styles */
+.timer h2 {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.timer-display {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.timer button {
+  margin-right: 10px;
+  width: auto;
+  padding: 6px 12px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .tagline {
+    flex-basis: 100%;
+    margin-top: 5px;
+    font-size: 13px;
+    text-align: center;
   }
 
   header {
-    background-color: #34d399;
-    color: white;
-    padding: 1rem;
-    text-align: center;
-    position: relative;
-  }
-
-  header h1 {
-    font-size: 2rem;
-    display: flex;
-    align-items: center;
     justify-content: center;
-    gap: 10px;
-    margin: 0;
   }
 
-  .tagline {
-    font-size: 1rem;
-    color: #e0f2f1;
-    margin-top: 0.5rem;
+  .tools, .timer {
+    max-width: 100%;
   }
+}
 
-  .container {
-    background: white;
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-
-  details {
-    margin-bottom: 1rem;
-    border: 1px solid #34d399;
-    border-radius: 8px;
-    background: #f0fdfa;
-  }
-
-  summary {
-    cursor: pointer;
-    font-weight: bold;
-    padding: 1rem;
-    font-size: 1.1rem;
-    color: #065f46;
-  }
-
-  summary:hover {
-    background-color: #d1fae5;
-  }
-
-  .calculator {
-    padding: 1rem 2rem;
-  }
-
-  label, input, select {
-    display: block;
-    margin-bottom: 0.8rem;
-    font-size: 1rem;
-  }
-
-  input, select {
-    padding: 0.5rem;
-    width: 100%;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-  }
-
-  button {
-    background-color: #34d399;
-    color: white;
-    border: none;
-    padding: 0.6rem 1.2rem;
-    font-size: 1rem;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-
-  button:hover {
-    background-color: #059669;
-  }
-
-  #timer {
-    font-size: 1rem;
-    color: #16a34a;
-    position: absolute;
-    top: 1.5rem;
-    right: 1rem;
-    font-weight: bold;
-  }
-</style>
 
