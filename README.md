@@ -1,31 +1,25 @@
 🧪 BioConvertor – Biotech Lab Unit Calculator
-BioConvertor is a lightweight and user-friendly web app designed to simplify common unit conversions used in biotechnology and life science laboratories.
 
-This tool helps students and researchers quickly convert values across multiple lab-related measurements—no more manual calculations or constant Google searches.
+**BioConvertor** is a simple web app built for quick and accurate lab conversions.  
+It helps students and researchers perform unit conversions like molarity, DNA/RNA concentration, OD260, and buffer dilutions — all in one place.
 
-🚀 Features
-Mass & Volume – Convert between grams, milligrams, and micrograms
+# 🔧 Features
+- Molarity and mass-volume conversions
+- DNA/RNA concentration (ng/µL ↔ nM)
+- OD260 to concentration
+- C1V1 = C2V2 dilution calculator
+- Temperature and time conversions
+- Buffer dilution calculator
 
-Molarity – Convert mg/mL to mM (requires molecular weight input)
+# 🛠 Built With
+- HTML
+- CSS (peach-nude theme)
+- JavaScript
 
-Dilution Calculator – Solve C1V1 = C2V2 problems instantly
+🌐 Live Site
+👉 [Use it here](https://akarsha1607.github.io/bioconvertor/)
 
-DNA/RNA – Convert ng/µL to nM using sequence length
+---
 
-OD260 to Concentration – Estimate nucleic acid concentration
+Feel free to clone, use, or suggest features!
 
-Temperature – Convert between °C, K, and °F
-
-Time – Convert between minutes, seconds, and hours
-
-Buffer Dilution – Calculate how much stock and water needed to prepare diluted buffer
-
-🧰 Tech Stack
-HTML
-
-CSS (custom peach-nude theme)
-
-JavaScript
-
-🌐 Live Demo
-Click here to open BioConvertor
