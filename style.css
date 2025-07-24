@@ -1,84 +1,101 @@
-body {
-  font-family: "Segoe UI", sans-serif;
-  background-color: #fff4f0;
-  margin: 0;
-  padding: 0;
-  color: #333;
-}
+<style>
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #ecfdf5;
+    margin: 0;
+    padding: 0;
+  }
 
-header {
-  background-color: #ffd6c9;
-  padding: 1.5rem;
-  text-align: center;
-  border-bottom: 3px solid #ffa68d;
-}
+  header {
+    background-color: #34d399;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    position: relative;
+  }
 
-header .logo {
-  max-width: 80px;
-  height: auto;
-}
+  header h1 {
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 0;
+  }
 
-h1 {
-  margin-top: 0.5rem;
-  font-size: 2.2rem;
-}
+  .tagline {
+    font-size: 1rem;
+    color: #e0f2f1;
+    margin-top: 0.5rem;
+  }
 
-main {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
-  padding: 2rem;
-}
+  .container {
+    background: white;
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
 
-.calculator {
-  background-color: #fff;
-  padding: 1.2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-}
+  details {
+    margin-bottom: 1rem;
+    border: 1px solid #34d399;
+    border-radius: 8px;
+    background: #f0fdfa;
+  }
 
-.calculator h2 {
-  margin-top: 0;
-  font-size: 1.3rem;
-  color: #d94e28;
-}
+  summary {
+    cursor: pointer;
+    font-weight: bold;
+    padding: 1rem;
+    font-size: 1.1rem;
+    color: #065f46;
+  }
 
-.calculator input,
-.calculator select,
-.calculator button {
-  display: block;
-  width: 100%;
-  margin: 0.3rem 0;
-  padding: 0.5rem;
-  font-size: 1rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
+  summary:hover {
+    background-color: #d1fae5;
+  }
 
-.calculator button {
-  background-color: #ff7e5f;
-  color: #fff;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
+  .calculator {
+    padding: 1rem 2rem;
+  }
 
-.calculator button:hover {
-  background-color: #e85c3c;
-}
+  label, input, select {
+    display: block;
+    margin-bottom: 0.8rem;
+    font-size: 1rem;
+  }
 
-#timerDisplay {
-  font-size: 1.5rem;
-  font-weight: bold;
-  text-align: center;
-  margin-top: 0.5rem;
-}
+  input, select {
+    padding: 0.5rem;
+    width: 100%;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
 
-footer {
-  background-color: #ffd6c9;
-  text-align: center;
-  padding: 1rem;
-  font-size: 0.9rem;
-  border-top: 3px solid #ffa68d;
-}
+  button {
+    background-color: #34d399;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #059669;
+  }
+
+  #timer {
+    font-size: 1rem;
+    color: #16a34a;
+    position: absolute;
+    top: 1.5rem;
+    right: 1rem;
+    font-weight: bold;
+  }
+</style>
+
