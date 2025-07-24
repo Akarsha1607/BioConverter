@@ -1,114 +1,169 @@
-// MOLARITY
-function calculateMolarity() {
-  const mass = parseFloat(document.getElementById("mass").value);
-  const molarMass = parseFloat(document.getElementById("molarMass").value);
-  const volume = parseFloat(document.getElementById("volume").value);
-  if (mass && molarMass && volume) {
-    const molarity = mass / molarMass / volume;
-    document.getElementById("molarityResult").innerText = molarity.toFixed(3) + " M";
-  }
+function showTool() {
+  const selected = document.getElementById('toolSelector').value;
+  const display = document.getElementById('calculatorDisplay');
+  display.innerHTML = '';
+
+  const tools = {
+    molarity: `
+      <div class="calculator">
+        <h3>Molarity Calculator</h3>
+        <input type="number" id="mol" placeholder="Moles">
+        <input type="number" id="liters" placeholder="Volume (L)">
+        <button onclick="calcMolarity()">Calculate</button>
+        <p id="molarityResult"></p>
+      </div>`,
+    dilution: `
+      <div class="calculator">
+        <h3>Dilution Calculator (C1V1 = C2V2)</h3>
+        <input type="number" id="c1" placeholder="C1 (Initial Concentration)">
+        <input type="number" id="v1" placeholder="V1 (Initial Volume)">
+        <input type="number" id="c2" placeholder="C2 (Final Concentration)">
+        <button onclick="calcDilution()">Calculate V2</button>
+        <p id="dilutionResult"></p>
+      </div>`,
+    temp: `
+      <div class="calculator">
+        <h3>Temperature Converter</h3>
+        <input type="number" id="celsius" placeholder="Celsius">
+        <button onclick="convertTemp()">Convert to Fahrenheit</button>
+        <p id="tempResult"></p>
+      </div>`,
+    dna: `
+      <div class="calculator">
+        <h3>DNA ng/μL to nM</h3>
+        <input type="number" id="ngul" placeholder="DNA conc. (ng/μL)">
+        <input type="number" id="length" placeholder="Length (bp)">
+        <button onclick="calcDNA()">Convert</button>
+        <p id="dnaResult"></p>
+      </div>`,
+    ph: `
+      <div class="calculator">
+        <h3>pH Calculator</h3>
+        <input type="number" id="hplus" placeholder="[H⁺] (mol/L)">
+        <button onclick="calcPH()">Calculate pH</button>
+        <p id="phResult"></p>
+      </div>`,
+    serial: `
+      <div class="calculator">
+        <h3>Serial Dilution</h3>
+        <input type="number" id="startConc" placeholder="Start Concentration">
+        <input type="number" id="dilFactor" placeholder="Dilution Factor">
+        <input type="number" id="steps" placeholder="Number of Steps">
+        <button onclick="calcSerial()">Calculate</button>
+        <p id="serialResult"></p>
+      </div>`,
+    mass: `
+      <div class="calculator">
+        <h3>Mass to Moles</h3>
+        <input type="number" id="mass" placeholder="Mass (g)">
+        <input type="number" id="mw" placeholder="Molecular Weight (g/mol)">
+        <button onclick="calcMassToMoles()">Convert</button>
+        <p id="massResult"></p>
+      </div>`,
+    volume: `
+      <div class="calculator">
+        <h3>Volume from Molarity</h3>
+        <input type="number" id="mol2" placeholder="Moles">
+        <input type="number" id="molar2" placeholder="Molarity (mol/L)">
+        <button onclick="calcVol()">Calculate Volume</button>
+        <p id="volResult"></p>
+      </div>`,
+    concentration: `
+      <div class="calculator">
+        <h3>Concentration (%) Calculator</h3>
+        <input type="number" id="amountSolute" placeholder="Solute (g)">
+        <input type="number" id="volumeSoln" placeholder="Solution Volume (mL)">
+        <button onclick="calcConc()">Calculate %</button>
+        <p id="concResult"></p>
+      </div>`
+  };
+
+  display.innerHTML = tools[selected] || '';
 }
 
-// DILUTION
-function calculateDilution() {
-  const c1 = parseFloat(document.getElementById("c1").value);
-  const v1 = parseFloat(document.getElementById("v1").value);
-  const c2 = parseFloat(document.getElementById("c2").value);
-  if (c1 && v1 && c2) {
-    const v2 = (c1 * v1) / c2;
-    document.getElementById("dilutionResult").innerText = "Final Volume (V2): " + v2.toFixed(2) + " L";
-  }
+function calcMolarity() {
+  const mol = parseFloat(document.getElementById('mol').value);
+  const vol = parseFloat(document.getElementById('liters').value);
+  const result = (mol / vol).toFixed(3);
+  document.getElementById('molarityResult').textContent = `Molarity = ${result} M`;
 }
 
-// TEMPERATURE
-function convertTemperature() {
-  const celsius = parseFloat(document.getElementById("celsius").value);
-  if (!isNaN(celsius)) {
-    const fahrenheit = (celsius * 9/5) + 32;
-    document.getElementById("tempResult").innerText = fahrenheit.toFixed(2) + " °F";
-  }
+function calcDilution() {
+  const c1 = parseFloat(document.getElementById('c1').value);
+  const v1 = parseFloat(document.getElementById('v1').value);
+  const c2 = parseFloat(document.getElementById('c2').value);
+  const v2 = (c1 * v1) / c2;
+  document.getElementById('dilutionResult').textContent = `Required V2 = ${v2.toFixed(2)} units`;
 }
 
-// DNA: ng/uL to nM
-function convertDNA() {
-  const concentration = parseFloat(document.getElementById("dnaConc").value);
-  const length = parseFloat(document.getElementById("dnaLength").value);
-  if (concentration && length) {
-    const nM = (concentration * 1e6) / (660 * length);
-    document.getElementById("dnaResult").innerText = nM.toFixed(2) + " nM";
-  }
+function convertTemp() {
+  const c = parseFloat(document.getElementById('celsius').value);
+  const f = (c * 9/5) + 32;
+  document.getElementById('tempResult').textContent = `${c}°C = ${f.toFixed(2)}°F`;
 }
 
-// pH from H+ concentration
-function calculatepH() {
-  const hConc = parseFloat(document.getElementById("hConc").value);
-  if (hConc > 0) {
-    const pH = -Math.log10(hConc);
-    document.getElementById("phResult").innerText = "pH = " + pH.toFixed(2);
-  }
+function calcDNA() {
+  const conc = parseFloat(document.getElementById('ngul').value);
+  const len = parseFloat(document.getElementById('length').value);
+  const result = (conc * 1000) / (len * 660);
+  document.getElementById('dnaResult').textContent = `${result.toFixed(2)} nM`;
 }
 
-// Serial Dilution (10x for now)
-function calculateSerialDilution() {
-  const initialConc = parseFloat(document.getElementById("initialConc").value);
-  const dilutions = parseInt(document.getElementById("dilutionSteps").value);
-  if (initialConc && dilutions > 0) {
-    let output = "";
-    let conc = initialConc;
-    for (let i = 1; i <= dilutions; i++) {
-      conc /= 10;
-      output += `Step ${i}: ${conc.toExponential(2)}<br>`;
-    }
-    document.getElementById("serialResult").innerHTML = output;
-  }
+function calcPH() {
+  const h = parseFloat(document.getElementById('hplus').value);
+  const result = -Math.log10(h);
+  document.getElementById('phResult').textContent = `pH = ${result.toFixed(2)}`;
 }
 
-// Mass to Moles
-function convertToMoles() {
-  const mass = parseFloat(document.getElementById("massMole").value);
-  const molarMass = parseFloat(document.getElementById("molarMassMole").value);
-  if (mass && molarMass) {
-    const moles = mass / molarMass;
-    document.getElementById("molesResult").innerText = moles.toFixed(3) + " mol";
+function calcSerial() {
+  let conc = parseFloat(document.getElementById('startConc').value);
+  const factor = parseFloat(document.getElementById('dilFactor').value);
+  const steps = parseInt(document.getElementById('steps').value);
+  let result = 'Concentrations: ';
+  for (let i = 0; i < steps; i++) {
+    result += `${conc.toFixed(3)}, `;
+    conc /= factor;
   }
+  document.getElementById('serialResult').textContent = result.slice(0, -2);
 }
 
-// Volume from Moles
-function calculateVolumeFromMoles() {
-  const moles = parseFloat(document.getElementById("molesVol").value);
-  const molarity = parseFloat(document.getElementById("molarityVol").value);
-  if (moles && molarity) {
-    const volume = moles / molarity;
-    document.getElementById("volumeResult").innerText = volume.toFixed(2) + " L";
-  }
+function calcMassToMoles() {
+  const mass = parseFloat(document.getElementById('mass').value);
+  const mw = parseFloat(document.getElementById('mw').value);
+  const moles = mass / mw;
+  document.getElementById('massResult').textContent = `Moles = ${moles.toFixed(4)}`;
 }
 
-// Percent Solution
-function calculatePercentSolution() {
-  const solute = parseFloat(document.getElementById("solute").value);
-  const solution = parseFloat(document.getElementById("solution").value);
-  if (solute && solution) {
-    const percent = (solute / solution) * 100;
-    document.getElementById("percentResult").innerText = percent.toFixed(2) + " %";
-  }
+function calcVol() {
+  const mol = parseFloat(document.getElementById('mol2').value);
+  const molar = parseFloat(document.getElementById('molar2').value);
+  const vol = mol / molar;
+  document.getElementById('volResult').textContent = `Volume = ${vol.toFixed(3)} L`;
 }
 
-// TIMER
-let timerInterval;
+function calcConc() {
+  const solute = parseFloat(document.getElementById('amountSolute').value);
+  const vol = parseFloat(document.getElementById('volumeSoln').value);
+  const percent = (solute / vol) * 100;
+  document.getElementById('concResult').textContent = `Concentration = ${percent.toFixed(2)}%`;
+}
+
 function startTimer() {
-  const mins = parseInt(document.getElementById("minutes").value);
-  const secs = parseInt(document.getElementById("seconds").value);
-  let total = mins * 60 + secs;
-  clearInterval(timerInterval);
-  timerInterval = setInterval(() => {
-    const m = Math.floor(total / 60);
-    const s = total % 60;
-    document.getElementById("timer").innerText = `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
-    total--;
-    if (total < 0) {
-      clearInterval(timerInterval);
-      alert("Time's up!");
-    }
+  const min = parseInt(document.getElementById('minutes').value) || 0;
+  const sec = parseInt(document.getElementById('seconds').value) || 0;
+  let totalSeconds = min * 60 + sec;
+
+  function updateDisplay() {
+    const m = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+    const s = String(totalSeconds % 60).padStart(2, '0');
+    document.getElementById('timer-display').textContent = `${m}:${s}`;
+  }
+
+  updateDisplay();
+  const interval = setInterval(() => {
+    totalSeconds--;
+    updateDisplay();
+    if (totalSeconds <= 0) clearInterval(interval);
   }, 1000);
 }
 
