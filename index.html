@@ -1,44 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>BioConverter</title>
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
   <header>
     <img src="bioconverter-logo.png" alt="BioConverter Logo" class="logo">
     <h1>BioConverter</h1>
-    <p class="tagline">Smart Calculators for Science People</p>
+    <p class="tagline">Simplifying science, one calculation at a time.</p>
   </header>
 
   <main>
-    <section class="calculator-panel">
-      <select id="toolSelector">
-        <option value="molarity">Molarity Calculator</option>
-        <option value="dilution">Dilution Calculator</option>
-        <option value="temperature">Temperature Converter</option>
-        <option value="dna">DNA Concentration Converter</option>
-        <option value="ph">pH Calculator</option>
-        <option value="serial">Serial Dilution Calculator</option>
-        <option value="mass">Mass from Volume & Molarity</option>
-        <option value="volume">Volume from Mass & Molarity</option>
-        <option value="molarity-from-mass">Molarity from Mass & Volume</option>
-      </select>
-
-      <div id="calculatorContainer"></div>
+    <section id="timer-section">
+      <h2>Set Timer</h2>
+      <div class="timer-controls">
+        <input type="number" id="minutes" placeholder="Minutes" min="0">
+        <input type="number" id="seconds" placeholder="Seconds" min="0" max="59">
+        <button onclick="startTimer()">Start</button>
+        <p id="timer-display">00:00</p>
+      </div>
     </section>
 
-    <aside class="timer-panel">
-      <h2>Set Timer</h2>
-      <input type="number" id="timerInput" placeholder="Minutes">
-      <button onclick="startTimer()">Start</button>
-      <div id="timerDisplay">00:00</div>
-    </aside>
+    <section class="tools">
+      <select id="toolSelector" onchange="showTool()">
+        <option value="">-- Select a Calculator --</option>
+        <option value="molarity">Molarity Calculator</option>
+        <option value="dilution">Dilution Calculator</option>
+        <option value="temp">Temperature Converter</option>
+        <option value="dna">DNA Concentration Converter</option>
+        <option value="ph">pH Calculator</option>
+        <option value="serial">Serial Dilution</option>
+        <option value="mass">Mass ↔ Moles</option>
+        <option value="volume">Volume ↔ Molarity</option>
+        <option value="concentration">Concentration % Converter</option>
+      </select>
+
+      <div id="calculatorDisplay"></div>
+    </section>
   </main>
 
   <footer>
@@ -47,5 +49,4 @@
 
   <script src="script.js"></script>
 </body>
-
 </html>
