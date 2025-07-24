@@ -1,0 +1,84 @@
+body {
+  font-family: "Segoe UI", sans-serif;
+  background-color: #fff4f0;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+header {
+  background-color: #ffd6c9;
+  padding: 1.5rem;
+  text-align: center;
+  border-bottom: 3px solid #ffa68d;
+}
+
+header .logo {
+  max-width: 80px;
+  height: auto;
+}
+
+h1 {
+  margin-top: 0.5rem;
+  font-size: 2.2rem;
+}
+
+main {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.calculator {
+  background-color: #fff;
+  padding: 1.2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.calculator h2 {
+  margin-top: 0;
+  font-size: 1.3rem;
+  color: #d94e28;
+}
+
+.calculator input,
+.calculator select,
+.calculator button {
+  display: block;
+  width: 100%;
+  margin: 0.3rem 0;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.calculator button {
+  background-color: #ff7e5f;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.calculator button:hover {
+  background-color: #e85c3c;
+}
+
+#timerDisplay {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+footer {
+  background-color: #ffd6c9;
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  border-top: 3px solid #ffa68d;
+}

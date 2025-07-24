@@ -2,176 +2,129 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BioConverter 🧪</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f0fff4;
-      color: #1a202c;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background-color: #38a169;
-      color: white;
-      padding: 1rem;
-      text-align: center;
-      font-size: 1.8rem;
-      font-weight: bold;
-    }
-    section {
-      margin: 1rem auto;
-      max-width: 800px;
-      padding: 1rem;
-      border-radius: 12px;
-      background: white;
-      box-shadow: 0 0 12px rgba(0, 128, 0, 0.1);
-    }
-    details {
-      margin-bottom: 1rem;
-      border: 2px solid #38a169;
-      border-radius: 8px;
-      padding: 0.5rem 1rem;
-    }
-    summary {
-      font-weight: bold;
-      font-size: 1.2rem;
-      cursor: pointer;
-    }
-    input {
-      padding: 0.5rem;
-      margin: 0.5rem 0;
-      width: 100%;
-      box-sizing: border-box;
-    }
-    button {
-      background-color: #38a169;
-      color: white;
-      padding: 0.6rem 1.2rem;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 0.5rem;
-    }
-    .feedback-button {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #2f855a;
-      color: white;
-      border: none;
-      border-radius: 50px;
-      padding: 0.8rem 1.4rem;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BioConverter</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
 </head>
 <body>
-  <header>BioConverter 🧪</header>
+  <header>
+    <img src="assets/bioconverter-logo.png" alt="BioConverter Logo" class="logo" />
+    <h1>BioConverter</h1>
+    <p>Quick lab calculators for your daily experiments</p>
+  </header>
 
-  <section>
-    <p><strong>🌱 I'm just getting started in web development, so this is a beginner attempt! But I wanted to build something useful for the biotech world.</strong></p>
+  <main>
+    <section class="calculator" id="mass-volume">
+      <h2>Mass & Volume Converter</h2>
+      <input type="number" id="massInput" placeholder="Enter value" />
+      <select id="massFrom">
+        <option value="mg">mg</option>
+        <option value="g" selected>g</option>
+        <option value="kg">kg</option>
+      </select>
+      to
+      <select id="massTo">
+        <option value="mg">mg</option>
+        <option value="g">g</option>
+        <option value="kg">kg</option>
+      </select>
+      <button onclick="convertMassVolume()">Convert</button>
+      <p id="massResult"></p>
+    </section>
 
-    <details>
-      <summary>🔬 Molarity Calculator (mol/L)</summary>
-      <input type="number" id="mol" placeholder="Moles" />
-      <input type="number" id="vol" placeholder="Volume in L" />
-      <button onclick="calcMolarity()">Calculate</button>
-      <p id="molarity-result"></p>
-    </details>
+    <section class="calculator">
+      <h2>Molarity Calculator</h2>
+      <input type="number" id="molMoles" placeholder="Moles of solute" />
+      <input type="number" id="molVolume" placeholder="Volume (L)" />
+      <button onclick="calculateMolarity()">Calculate</button>
+      <p id="molResult"></p>
+    </section>
 
-    <details>
-      <summary>🧪 µL ↔ mg Conversion</summary>
-      <input type="number" id="conc" placeholder="Concentration (mg/mL)" />
-      <input type="number" id="volul" placeholder="Volume (µL)" />
-      <button onclick="calcMass()">Convert</button>
-      <p id="mass-result"></p>
-    </details>
+    <section class="calculator">
+      <h2>DNA/RNA OD260 Calculator</h2>
+      <input type="number" id="odInput" placeholder="OD260 reading" />
+      <select id="dnaType">
+        <option value="dsDNA">dsDNA</option>
+        <option value="ssDNA">ssDNA</option>
+        <option value="RNA">RNA</option>
+      </select>
+      <button onclick="calcDNA()">Calculate</button>
+      <p id="odResult"></p>
+    </section>
 
-    <details>
-      <summary>🧫 Protein/DNA mass ↔ mol Conversion</summary>
-      <input type="number" id="mass" placeholder="Mass (g)" />
-      <input type="number" id="mw" placeholder="Molecular Weight (g/mol)" />
-      <button onclick="calcMol()">Convert</button>
-      <p id="mol-result"></p>
-    </details>
-
-    <details>
-      <summary>🌡️ Temperature Converter (°C, °F, K)</summary>
-      <input type="number" id="temp" placeholder="Enter Temperature" />
-      <select id="tempUnit">
-        <option value="C">Celsius</option>
-        <option value="F">Fahrenheit</option>
-        <option value="K">Kelvin</option>
+    <section class="calculator">
+      <h2>Temperature Converter</h2>
+      <input type="number" id="tempInput" placeholder="Enter temperature" />
+      <select id="tempFrom">
+        <option value="C">°C</option>
+        <option value="F">°F</option>
+        <option value="K">K</option>
+      </select>
+      to
+      <select id="tempTo">
+        <option value="C">°C</option>
+        <option value="F">°F</option>
+        <option value="K">K</option>
       </select>
       <button onclick="convertTemp()">Convert</button>
-      <p id="temp-result"></p>
-    </details>
+      <p id="tempResult"></p>
+    </section>
 
-    <details>
-      <summary>📊 pH to H<sup>+</sup> Calculator</summary>
-      <input type="number" id="ph" placeholder="Enter pH" step="0.1" />
-      <button onclick="calcHPlus()">Convert</button>
-      <p id="ph-result"></p>
-    </details>
-  </section>
+    <section class="calculator">
+      <h2>Dilution Calculator (C₁V₁=C₂V₂)</h2>
+      <input type="number" id="c1" placeholder="C₁ (initial conc)" />
+      <input type="number" id="v1" placeholder="V₁ (initial vol)" />
+      <input type="number" id="c2" placeholder="C₂ (final conc)" />
+      <button onclick="calcDilution()">Calculate</button>
+      <p id="dilutionResult"></p>
+    </section>
 
-  <button class="feedback-button" onclick="sendFeedback()">💡 Suggest a Tool</button>
+    <section class="calculator">
+      <h2>pH / [H⁺] Calculator</h2>
+      <input type="number" id="phInput" placeholder="Enter value" />
+      <select id="phMode">
+        <option value="ph">Input is pH</option>
+        <option value="h">Input is [H⁺]</option>
+      </select>
+      <button onclick="calcPH()">Calculate</button>
+      <p id="phResult"></p>
+    </section>
 
-  <script>
-    function calcMolarity() {
-      const mol = parseFloat(document.getElementById("mol").value);
-      const vol = parseFloat(document.getElementById("vol").value);
-      const result = mol / vol;
-      document.getElementById("molarity-result").textContent = `Molarity: ${result.toFixed(3)} mol/L`;
-    }
+    <section class="calculator">
+      <h2>Molecular Weight (basic)</h2>
+      <input type="text" id="mwFormula" placeholder="Chemical formula (e.g., H2O)" />
+      <button onclick="calculateMW()">Calculate</button>
+      <p id="mwResult"></p>
+    </section>
 
-    function calcMass() {
-      const conc = parseFloat(document.getElementById("conc").value);
-      const volul = parseFloat(document.getElementById("volul").value);
-      const result = (conc * volul) / 1000;
-      document.getElementById("mass-result").textContent = `Mass: ${result.toFixed(3)} mg`;
-    }
+    <section class="calculator">
+      <h2>Buffer Dilution Tool</h2>
+      <input type="number" id="bufferStock" placeholder="Stock conc (X)" />
+      <input type="number" id="bufferFinal" placeholder="Final conc (X)" />
+      <input type="number" id="bufferVol" placeholder="Final vol (mL)" />
+      <button onclick="calcBuffer()">Calculate</button>
+      <p id="bufferResult"></p>
+    </section>
 
-    function calcMol() {
-      const mass = parseFloat(document.getElementById("mass").value);
-      const mw = parseFloat(document.getElementById("mw").value);
-      const result = mass / mw;
-      document.getElementById("mol-result").textContent = `Moles: ${result.toExponential(3)} mol`;
-    }
+    <section class="calculator">
+      <h2>Protocol Timer</h2>
+      <div class="timer-inputs">
+        <input type="number" id="timerH" placeholder="HH" min="0" />
+        <input type="number" id="timerM" placeholder="MM" min="0" />
+        <input type="number" id="timerS" placeholder="SS" min="0" />
+      </div>
+      <button onclick="startTimer()">Start</button>
+      <button onclick="stopTimer()">Stop</button>
+      <p id="timerDisplay">00:00:00</p>
+    </section>
+  </main>
 
-    function convertTemp() {
-      const t = parseFloat(document.getElementById("temp").value);
-      const unit = document.getElementById("tempUnit").value;
-      let c, f, k;
-      if (unit === "C") {
-        c = t;
-        f = t * 9/5 + 32;
-        k = t + 273.15;
-      } else if (unit === "F") {
-        c = (t - 32) * 5/9;
-        f = t;
-        k = c + 273.15;
-      } else {
-        c = t - 273.15;
-        f = c * 9/5 + 32;
-        k = t;
-      }
-      document.getElementById("temp-result").textContent = `C: ${c.toFixed(2)} °C | F: ${f.toFixed(2)} °F | K: ${k.toFixed(2)} K`;
-    }
+  <footer>
+    <p>Made with 💡 by Akarsha Davis</p>
+  </footer>
 
-    function calcHPlus() {
-      const ph = parseFloat(document.getElementById("ph").value);
-      const h = Math.pow(10, -ph);
-      document.getElementById("ph-result").textContent = `[H+]: ${h.toExponential(3)} mol/L`;
-    }
-
-    function sendFeedback() {
-      window.open("https://forms.gle/u1QdNxPJ7uKsr7YX8", "_blank");
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
+
