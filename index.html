@@ -2,129 +2,139 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BioConverter</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      margin: 0;
+      background-color: #e6f5ec;
+      color: #222;
+    }
+    header {
+      background-color: #3ca96b;
+      color: white;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+    .logo {
+      height: 36px;
+    }
+    .container {
+      display: flex;
+      padding: 2rem;
+      gap: 2rem;
+    }
+    .tools, .timer-section {
+      flex: 1;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 2rem;
+    }
+    .tools h2, .timer-section h2 {
+      margin-top: 0;
+    }
+    details {
+      border: 2px solid #3ca96b;
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      margin: 1rem 0;
+    }
+    summary {
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .tagline {
+      text-align: center;
+      font-size: 1rem;
+      color: #444;
+      margin-top: -1rem;
+    }
+    .timer-display {
+      font-size: 2rem;
+      margin: 1rem 0;
+    }
+    .timer-controls button {
+      padding: 0.5rem 1rem;
+      margin: 0.2rem;
+      border: none;
+      background-color: #3ca96b;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .timer-controls button:hover {
+      background-color: #31915b;
+    }
+  </style>
 </head>
 <body>
   <header>
-    <img src="assets/bioconverter-logo.png" alt="BioConverter Logo" class="logo" />
+    <img src="bioconverter-logo.png" alt="BioConverter Logo" class="logo" />
     <h1>BioConverter</h1>
-    <p>Quick lab calculators for your daily experiments</p>
   </header>
+  <p class="tagline">🧪 A science toolkit made simple – for curious students, lab geeks & biotech lovers!</p>
 
-  <main>
-    <section class="calculator" id="mass-volume">
-      <h2>Mass & Volume Converter</h2>
-      <input type="number" id="massInput" placeholder="Enter value" />
-      <select id="massFrom">
-        <option value="mg">mg</option>
-        <option value="g" selected>g</option>
-        <option value="kg">kg</option>
-      </select>
-      to
-      <select id="massTo">
-        <option value="mg">mg</option>
-        <option value="g">g</option>
-        <option value="kg">kg</option>
-      </select>
-      <button onclick="convertMassVolume()">Convert</button>
-      <p id="massResult"></p>
-    </section>
+  <div class="container">
+    <div class="tools">
+      <h2>🧠 Conversion Tools</h2>
+      <details><summary>🧪 Molarity Calculator (mol/L)</summary><p>[Calculator UI here]</p></details>
+      <details><summary>🧫 Dilution Calculator</summary><p>[Calculator UI here]</p></details>
+      <details><summary>🧴 µL ↔ mg Conversion</summary><p>[Calculator UI here]</p></details>
+      <details><summary>🧬 Protein/DNA mass ↔ mol</summary><p>[Calculator UI here]</p></details>
+      <details><summary>🌡️ Temperature Converter (°C, °F, K)</summary><p>[Calculator UI here]</p></details>
+      <details><summary>🧪 pH to H<sup>+</sup> Calculator</summary><p>[Calculator UI here]</p></details>
+      <details><summary>🧬 DNA conc. (ng/µL ↔ nM)</summary><p>[Calculator UI here]</p></details>
+      <details><summary>🧪 Serial Dilution Helper</summary><p>[Calculator UI here]</p></details>
+    </div>
 
-    <section class="calculator">
-      <h2>Molarity Calculator</h2>
-      <input type="number" id="molMoles" placeholder="Moles of solute" />
-      <input type="number" id="molVolume" placeholder="Volume (L)" />
-      <button onclick="calculateMolarity()">Calculate</button>
-      <p id="molResult"></p>
-    </section>
-
-    <section class="calculator">
-      <h2>DNA/RNA OD260 Calculator</h2>
-      <input type="number" id="odInput" placeholder="OD260 reading" />
-      <select id="dnaType">
-        <option value="dsDNA">dsDNA</option>
-        <option value="ssDNA">ssDNA</option>
-        <option value="RNA">RNA</option>
-      </select>
-      <button onclick="calcDNA()">Calculate</button>
-      <p id="odResult"></p>
-    </section>
-
-    <section class="calculator">
-      <h2>Temperature Converter</h2>
-      <input type="number" id="tempInput" placeholder="Enter temperature" />
-      <select id="tempFrom">
-        <option value="C">°C</option>
-        <option value="F">°F</option>
-        <option value="K">K</option>
-      </select>
-      to
-      <select id="tempTo">
-        <option value="C">°C</option>
-        <option value="F">°F</option>
-        <option value="K">K</option>
-      </select>
-      <button onclick="convertTemp()">Convert</button>
-      <p id="tempResult"></p>
-    </section>
-
-    <section class="calculator">
-      <h2>Dilution Calculator (C₁V₁=C₂V₂)</h2>
-      <input type="number" id="c1" placeholder="C₁ (initial conc)" />
-      <input type="number" id="v1" placeholder="V₁ (initial vol)" />
-      <input type="number" id="c2" placeholder="C₂ (final conc)" />
-      <button onclick="calcDilution()">Calculate</button>
-      <p id="dilutionResult"></p>
-    </section>
-
-    <section class="calculator">
-      <h2>pH / [H⁺] Calculator</h2>
-      <input type="number" id="phInput" placeholder="Enter value" />
-      <select id="phMode">
-        <option value="ph">Input is pH</option>
-        <option value="h">Input is [H⁺]</option>
-      </select>
-      <button onclick="calcPH()">Calculate</button>
-      <p id="phResult"></p>
-    </section>
-
-    <section class="calculator">
-      <h2>Molecular Weight (basic)</h2>
-      <input type="text" id="mwFormula" placeholder="Chemical formula (e.g., H2O)" />
-      <button onclick="calculateMW()">Calculate</button>
-      <p id="mwResult"></p>
-    </section>
-
-    <section class="calculator">
-      <h2>Buffer Dilution Tool</h2>
-      <input type="number" id="bufferStock" placeholder="Stock conc (X)" />
-      <input type="number" id="bufferFinal" placeholder="Final conc (X)" />
-      <input type="number" id="bufferVol" placeholder="Final vol (mL)" />
-      <button onclick="calcBuffer()">Calculate</button>
-      <p id="bufferResult"></p>
-    </section>
-
-    <section class="calculator">
-      <h2>Protocol Timer</h2>
-      <div class="timer-inputs">
-        <input type="number" id="timerH" placeholder="HH" min="0" />
-        <input type="number" id="timerM" placeholder="MM" min="0" />
-        <input type="number" id="timerS" placeholder="SS" min="0" />
+    <div class="timer-section">
+      <h2>⏱️ Protocol Timer</h2>
+      <div class="timer-display" id="timer">00:00:00</div>
+      <div class="timer-controls">
+        <button onclick="startTimer()">Start</button>
+        <button onclick="pauseTimer()">Pause</button>
+        <button onclick="resetTimer()">Reset</button>
       </div>
-      <button onclick="startTimer()">Start</button>
-      <button onclick="stopTimer()">Stop</button>
-      <p id="timerDisplay">00:00:00</p>
-    </section>
-  </main>
+    </div>
+  </div>
 
-  <footer>
-    <p>Made with 💡 by Akarsha Davis</p>
-  </footer>
-
-  <script src="script.js"></script>
+  <script>
+    let timer;
+    let seconds = 0;
+    function updateDisplay() {
+      const hrs = String(Math.floor(seconds / 3600)).padStart(2, '0');
+      const mins = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+      const secs = String(seconds % 60).padStart(2, '0');
+      document.getElementById('timer').textContent = `${hrs}:${mins}:${secs}`;
+    }
+    function startTimer() {
+      if (!timer) {
+        timer = setInterval(() => {
+          seconds++;
+          updateDisplay();
+        }, 1000);
+      }
+    }
+    function pauseTimer() {
+      clearInterval(timer);
+      timer = null;
+    }
+    function resetTimer() {
+      pauseTimer();
+      seconds = 0;
+      updateDisplay();
+    }
+    updateDisplay();
+  </script>
 </body>
 </html>
-
