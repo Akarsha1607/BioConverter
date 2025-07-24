@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BioConvertor - Biotech Lab Calculator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fff8f4;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #ffcdb2;
+      padding: 1rem;
+      text-align: center;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      background-color: #ffe5d9;
+    }
+    .tabs button {
+      padding: 10px 20px;
+      margin: 5px;
+      background-color: #ffb4a2;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .tabs button.active {
+      background-color: #e5989b;
+    }
+    .tab-content {
+      display: none;
+      padding: 1rem;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    .section {
+      margin-bottom: 1rem;
+    }
+    label, input, select {
+      display: block;
+      margin: 0.5rem 0;
+    }
+    input, select {
+      padding: 0.5rem;
+      width: 100%;
+      max-width: 300px;
+    }
+    button.calc-btn {
+      margin-top: 1rem;
+      padding: 10px 15px;
+      background-color: #b5838d;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 1rem;
+      font-weight: bold;
+      color: #6d6875;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <header>BioConvertor - Biotech Lab Unit Calculator</header>
+
+  <div class="tabs">
+    <button class="tablink active" onclick="openTab(event, 'massVolume')">Mass & Volume</button>
+    <button class="tablink" onclick="openTab(event, 'molarity')">Molarity</button>
+    <button class="tablink" onclick="openTab(event, 'dilution')">Dilution</button>
+    <button class="tablink" onclick="openTab(event, 'dna')">DNA/RNA</button>
+    <button class="tablink" onclick="openTab(event, 'od')">OD260</button>
+    <button class="tablink" onclick="openTab(event, 'temp')">Temperature</button>
+    <button class="tablink" onclick="openTab(event, 'time')">Time</button>
+    <button class="tablink" onclick="openTab(event, 'buffer')">Buffer Dilution</button>
+  </div>
+
+  <div id="massVolume" class="tab-content active">
+    <h2>Mass & Volume Converter</h2>
+    <label for="massInput">Enter value:</label>
+    <input type="number" id="massInput" />
+    <select id="massUnit">
+      <option value="g">grams</option>
+      <option value="mg">milligrams</option>
+      <option value="ug">micrograms</option>
+    </select>
+    <button class="calc-btn" onclick="convertMass()">Convert</button>
+    <div class="result" id="massResult"></div>
+  </div>
+
+  <div id="molarity" class="tab-content">
+    <h2>Molarity Converter</h2>
+    <label>Enter concentration (e.g. mg/mL):</label>
+    <input type="number" id="concentration" />
+    <label>Molecular weight (g/mol):</label>
+    <input type="number" id="mw" />
+    <button class="calc-btn" onclick="convertMolarity()">Convert</button>
+    <div class="result" id="molarityResult"></div>
+  </div>
+
+  <div id="dilution" class="tab-content">
+    <h2>Dilution Calculator (C1V1 = C2V2)</h2>
+    <label>Enter C1:</label>
+    <input type="number" id="c1" />
+    <label>Enter V1:</label>
+    <input type="number" id="v1" />
+    <label>Enter C2:</label>
+    <input type="number" id="c2" />
+    <button class="calc-btn" onclick="calculateV2()">Calculate V2</button>
+    <div class="result" id="dilutionResult"></div>
+  </div>
+
+  <div id="dna" class="tab-content">
+    <h2>DNA/RNA ng/µL ↔ nM</h2>
+    <label>Concentration (ng/µL):</label>
+    <input type="number" id="ngul" />
+    <label>Length (bp):</label>
+    <input type="number" id="length" />
+    <button class="calc-btn" onclick="convertDNARNA()">Convert</button>
+    <div class="result" id="dnaResult"></div>
+  </div>
+
+  <div id="od" class="tab-content">
+    <h2>OD260 Calculator</h2>
+    <label>OD260 value:</label>
+    <input type="number" id="odValue" step="0.01" />
+    <button class="calc-btn" onclick="convertOD()">Convert</button>
+    <div class="result" id="odResult"></div>
+  </div>
+
+  <div id="temp" class="tab-content">
+    <h2>Temperature Converter</h2>
+    <label>Temperature (°C):</label>
+    <input type="number" id="tempC" />
+    <button class="calc-btn" onclick="convertTemp()">Convert</button>
+    <div class="result" id="tempResult"></div>
+  </div>
+
+  <div id="time" class="tab-content">
+    <h2>Time Converter</h2>
+    <label>Minutes:</label>
+    <input type="number" id="minutes" />
+    <button class="calc-btn" onclick="convertTime()">Convert</button>
+    <div class="result" id="timeResult"></div>
+  </div>
+
+  <div id="buffer" class="tab-content">
+    <h2>Buffer Dilution</h2>
+    <label>Stock concentration (X):</label>
+    <input type="number" id="stockConc" />
+    <label>Final concentration (X):</label>
+    <input type="number" id="finalConc" />
+    <label>Final volume (mL):</label>
+    <input type="number" id="finalVol" />
+    <button class="calc-btn" onclick="bufferDilution()">Calculate</button>
+    <div class="result" id="bufferResult"></div>
+  </div>
+
+  <script>
+    function openTab(evt, tabName) {
+      const tablinks = document.querySelectorAll('.tablink');
+      const tabcontents = document.querySelectorAll('.tab-content');
+      tabcontents.forEach(el => el.classList.remove('active'));
+      tablinks.forEach(el => el.classList.remove('active'));
+      document.getElementById(tabName).classList.add('active');
+      evt.currentTarget.classList.add('active');
+    }
+
+    function convertMass() {
+      const value = parseFloat(document.getElementById('massInput').value);
+      const unit = document.getElementById('massUnit').value;
+      let g, mg, ug;
+      if (unit === 'g') { g = value; mg = value * 1000; ug = value * 1e6; }
+      else if (unit === 'mg') { g = value / 1000; mg = value; ug = value * 1000; }
+      else if (unit === 'ug') { g = value / 1e6; mg = value / 1000; ug = value; }
+      document.getElementById('massResult').innerText =
+        `Grams: ${g.toFixed(6)} g\nMilligrams: ${mg.toFixed(2)} mg\nMicrograms: ${ug.toFixed(2)} µg`;
+    }
+
+    function convertMolarity() {
+      const conc = parseFloat(document.getElementById('concentration').value);
+      const mw = parseFloat(document.getElementById('mw').value);
+      const mM = (conc / mw) * 1000;
+      document.getElementById('molarityResult').innerText = `${mM.toFixed(3)} mM`;
+    }
+
+    function calculateV2() {
+      const C1 = parseFloat(document.getElementById('c1').value);
+      const V1 = parseFloat(document.getElementById('v1').value);
+      const C2 = parseFloat(document.getElementById('c2').value);
+      const V2 = (C1 * V1) / C2;
+      document.getElementById('dilutionResult').innerText = `V2 = ${V2.toFixed(2)} units`;
+    }
+
+    function convertDNARNA() {
+      const ngul = parseFloat(document.getElementById('ngul').value);
+      const length = parseFloat(document.getElementById('length').value);
+      const molWt = length * 660;
+      const concM = (ngul * 1e-9) / molWt;
+      const nM = concM * 1e9;
+      document.getElementById('dnaResult').innerText = `${nM.toFixed(2)} nM`;
+    }
+
+    function convertOD() {
+      const od = parseFloat(document.getElementById('odValue').value);
+      const conc = od * 50; // 1 OD = 50 µg/mL for dsDNA
+      document.getElementById('odResult').innerText = `${conc.toFixed(2)} µg/mL`;
+    }
+
+    function convertTemp() {
+      const c = parseFloat(document.getElementById('tempC').value);
+      const k = c + 273.15;
+      const f = (c * 9/5) + 32;
+      document.getElementById('tempResult').innerText = `Kelvin: ${k.toFixed(2)} K\nFahrenheit: ${f.toFixed(2)} °F`;
+    }
+
+    function convertTime() {
+      const min = parseFloat(document.getElementById('minutes').value);
+      const sec = min * 60;
+      const hr = min / 60;
+      document.getElementById('timeResult').innerText = `Hours: ${hr.toFixed(2)} hr\nSeconds: ${sec.toFixed(0)} s`;
+    }
+
+    function bufferDilution() {
+      const stock = parseFloat(document.getElementById('stockConc').value);
+      const final = parseFloat(document.getElementById('finalConc').value);
+      const volume = parseFloat(document.getElementById('finalVol').value);
+      const stockVol = (final / stock) * volume;
+      const waterVol = volume - stockVol;
+      document.getElementById('bufferResult').innerText = `Add ${stockVol.toFixed(2)} mL stock + ${waterVol.toFixed(2)} mL water`;
+    }
+  </script>
+</body>
+</html>
