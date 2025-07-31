@@ -5,38 +5,52 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>BioConverter</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
 </head>
 <body>
   <header>
-    <img src="bioconverter-logo.png" alt="BioConverter Logo" class="logo" />
-    <h1>BioConverter</h1>
-    <p class="tagline">Calculator for science people</p>
+    <img src="bioconverter-logo.png" alt="BioConverter Logo" id="logo"/>
+    <div>
+      <h1>BioConverter</h1>
+      <p class="tagline">Simplifying science, one calculation at a time</p>
+    </div>
   </header>
 
   <main>
-    <section class="tool-selector">
-      <label for="tool">Choose a tool:</label>
-      <select id="tool">
-        <option value="molarity">Molarity Calculator</option>
-        <option value="dilution">Dilution Calculator</option>
-        <option value="ph">pH Calculator</option>
-        <option value="temperature">Temperature Converter</option>
-        <option value="dna">DNA Concentration Converter</option>
-        <option value="serial">Serial Dilution Calculator</option>
-        <option value="volume">µL to mL Converter</option>
-        <option value="massmolvol">Mass/Mole/Vol Calculator</option>
-        <option value="timer">Set Timer</option>
-      </select>
+    <section class="timer-section">
+      <h2>Set Timer</h2>
+      <div class="timer-controls">
+        <input type="number" id="hours" min="0" value="0" />h
+        <input type="number" id="minutes" min="0" max="59" value="0" />m
+        <input type="number" id="seconds" min="0" max="59" value="0" />s
+        <button onclick="startTimer()">Start</button>
+        <button onclick="pauseTimer()">Pause</button>
+        <button onclick="resetTimer()">Reset</button>
+      </div>
+      <div class="timer-display" id="timerDisplay">00:00:00</div>
     </section>
 
-    <section id="calculator-container"></section>
+    <section class="calculator-section">
+      <h2>Select a Tool</h2>
+      <select id="toolSelector" onchange="showTool()">
+        <option value="">--Choose--</option>
+        <option value="molarity">Molarity Calculator</option>
+        <option value="dilution">Dilution Calculator</option>
+        <option value="temperature">Temperature Converter</option>
+        <option value="dna">DNA Conc. ng/μL → nM</option>
+        <option value="nm">DNA Conc. nM → ng/μL</option>
+        <option value="ph">pH Calculator</option>
+        <option value="serial">Serial Dilution</option>
+        <option value="mass">Mass ⇌ Moles</option>
+        <option value="volume">Volume ⇌ Concentration</option>
+      </select>
+
+      <div id="toolContainer"></div>
+    </section>
   </main>
 
-  <footer>
-    <p>Made with ❤️ for scientists and students</p>
-  </footer>
-
+  <audio id="alarmSound" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg"></audio>
   <script src="script.js"></script>
 </body>
 </html>
+
