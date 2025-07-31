@@ -4,44 +4,39 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>BioConverter</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
   <header>
-    <img id="logo" src="bioconverter-logo.png" alt="BioConverter Logo" />
-    <div>
-      <h1>BioConverter</h1>
-      <p class="tagline">Smart calculators for science people</p>
-    </div>
+    <img src="bioconverter-logo.png" alt="BioConverter Logo" class="logo" />
+    <h1>BioConverter</h1>
+    <p class="tagline">Calculator for science people</p>
   </header>
 
   <main>
-    <section class="timer-section">
-      <h2>Set Timer</h2>
-      <div class="timer-controls">
-        <input type="number" id="minutes" placeholder="Min" />
-        <input type="number" id="seconds" placeholder="Sec" />
-        <button onclick="startTimer()">Start</button>
-        <button onclick="resetTimer()">Reset</button>
-      </div>
-      <div class="timer-display" id="time">00:00</div>
-    </section>
-
-    <section class="calculator-section">
-      <h2>Choose Calculator Tool</h2>
-      <select id="tool-select" onchange="loadTool()">
-        <option value="">-- Select --</option>
+    <section class="tool-selector">
+      <label for="tool">Choose a tool:</label>
+      <select id="tool">
         <option value="molarity">Molarity Calculator</option>
         <option value="dilution">Dilution Calculator</option>
+        <option value="ph">pH Calculator</option>
         <option value="temperature">Temperature Converter</option>
+        <option value="dna">DNA Concentration Converter</option>
+        <option value="serial">Serial Dilution Calculator</option>
+        <option value="volume">µL to mL Converter</option>
+        <option value="massmolvol">Mass/Mole/Vol Calculator</option>
+        <option value="timer">Set Timer</option>
       </select>
-
-      <div id="tool-container"></div>
     </section>
+
+    <section id="calculator-container"></section>
   </main>
+
+  <footer>
+    <p>Made with ❤️ for scientists and students</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>
 </html>
-
