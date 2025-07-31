@@ -1,184 +1,108 @@
+// TIMER
 let timer;
-let remainingTime = 0;
+let totalSeconds = 0;
 
 function startTimer() {
+  const minutes = parseInt(document.getElementById("minutes").value) || 0;
+  const seconds = parseInt(document.getElementById("seconds").value) || 0;
+  totalSeconds = minutes * 60 + seconds;
+
   clearInterval(timer);
-  const h = parseInt(document.getElementById('hours').value) || 0;
-  const m = parseInt(document.getElementById('minutes').value) || 0;
-  const s = parseInt(document.getElementById('seconds').value) || 0;
-  remainingTime = h * 3600 + m * 60 + s;
-
-  if (remainingTime <= 0) return;
-
-  updateDisplay();
   timer = setInterval(() => {
-    remainingTime--;
-    updateDisplay();
-    if (remainingTime <= 0) {
+    if (totalSeconds <= 0) {
       clearInterval(timer);
-      document.getElementById('alarmSound').play();
-      alert("Time's up!");
+      alert("⏰ Time's up!");
+    } else {
+      totalSeconds--;
+      displayTime();
     }
   }, 1000);
 }
 
-function pauseTimer() {
-  clearInterval(timer);
+function displayTime() {
+  const min = String(Math.floor(totalSeconds / 60)).padStart(2, "0");
+  const sec = String(totalSeconds % 60).padStart(2, "0");
+  document.getElementById("time").innerText = `${min}:${sec}`;
 }
 
 function resetTimer() {
   clearInterval(timer);
-  remainingTime = 0;
-  updateDisplay();
+  totalSeconds = 0;
+  document.getElementById("time").innerText = "00:00";
+  document.getElementById("minutes").value = "";
+  document.getElementById("seconds").value = "";
 }
 
-function updateDisplay() {
-  const hrs = String(Math.floor(remainingTime / 3600)).padStart(2, '0');
-  const mins = String(Math.floor((remainingTime % 3600) / 60)).padStart(2, '0');
-  const secs = String(remainingTime % 60).padStart(2, '0');
-  document.getElementById('timerDisplay').textContent = `${hrs}:${mins}:${secs}`;
-}
+// TOOL LOADER
+function loadTool() {
+  const tool = document.getElementById("tool-select").value;
+  const container = document.getElementById("tool-container");
+  container.innerHTML = "";
 
-function showTool() {
-  const tool = document.getElementById('toolSelector').value;
-  const container = document.getElementById('toolContainer');
-  container.innerHTML = '';
-
-  if (!tool) return;
-
-  const html = {
-    molarity: `
+  if (tool === "molarity") {
+    container.innerHTML = `
       <h3>Molarity Calculator</h3>
-      <input placeholder="Mass (g)" id="mass"><br>
-      <input placeholder="Volume (L)" id="volume"><br>
-      <input placeholder="Molar Mass (g/mol)" id="mm"><br>
+      <input type="number" id="mol" placeholder="Moles (mol)">
+      <input type="number" id="vol" placeholder="Volume (L)">
       <button onclick="calcMolarity()">Calculate</button>
-      <p id="molarityResult"></p>
-    `,
-    ph: `
-      <h3>pH Calculator</h3>
-      <input placeholder="H⁺ Concentration (mol/L)" id="hconc"><br>
-      <button onclick="calcPH()">Calculate</button>
-      <p id="phResult"></p>
-    `,
-    dna: `
-      <h3>ng/μL → nM</h3>
-      <input placeholder="ng/μL" id="dna_ng"><br>
-      <input placeholder="bp Length" id="dna_len"><br>
-      <button onclick="calcDNA()">Convert</button>
-      <p id="dnaResult"></p>
-    `,
-    nm: `
-      <h3>nM → ng/μL</h3>
-      <input placeholder="nM" id="dna_nm"><br>
-      <input placeholder="bp Length" id="dna_len2"><br>
-      <button onclick="calcNM()">Convert</button>
-      <p id="nmResult"></p>
-    `,
-    dilution: `
-      <h3>Dilution Calculator</h3>
-      <input placeholder="C1" id="c1">
-      <input placeholder="V1" id="v1">
-      <input placeholder="C2" id="c2">
+      <button onclick="resetTool()">Reset</button>
+      <p id="molarity-result"></p>
+    `;
+  } else if (tool === "dilution") {
+    container.innerHTML = `
+      <h3>Dilution Calculator (C1V1 = C2V2)</h3>
+      <input type="number" id="c1" placeholder="C1">
+      <input type="number" id="v1" placeholder="V1">
+      <input type="number" id="c2" placeholder="C2">
       <button onclick="calcDilution()">Calculate V2</button>
-      <p id="dilutionResult"></p>
-    `,
-    temperature: `
+      <button onclick="resetTool()">Reset</button>
+      <p id="dilution-result"></p>
+    `;
+  } else if (tool === "temperature") {
+    container.innerHTML = `
       <h3>Temperature Converter</h3>
-      <input placeholder="Celsius" id="celsius">
-      <button onclick="convTemp()">Convert</button>
-      <p id="tempResult"></p>
-    `,
-    serial: `
-      <h3>Serial Dilution</h3>
-      <input placeholder="Start Conc." id="sConc">
-      <input placeholder="Dilution Factor" id="dFactor">
-      <input placeholder="Steps" id="sSteps">
-      <button onclick="serialDil()">Go</button>
-      <p id="serialResult"></p>
-    `,
-    mass: `
-      <h3>Mass ⇌ Moles</h3>
-      <input placeholder="Mass (g)" id="massInput">
-      <input placeholder="Molar Mass" id="molMass">
-      <button onclick="massToMoles()">Convert</button>
-      <p id="massResult"></p>
-    `,
-    volume: `
-      <h3>Volume ⇌ Concentration</h3>
-      <input placeholder="Moles" id="vmole">
-      <input placeholder="Volume (L)" id="vvol">
-      <button onclick="volConc()">Convert</button>
-      <p id="volumeResult"></p>
-    `
-  };
-  container.innerHTML = html[tool];
+      <input type="number" id="tempInput" placeholder="Enter Temperature">
+      <select id="tempUnit">
+        <option value="CtoF">Celsius to Fahrenheit</option>
+        <option value="FtoC">Fahrenheit to Celsius</option>
+      </select>
+      <button onclick="convertTemp()">Convert</button>
+      <button onclick="resetTool()">Reset</button>
+      <p id="temp-result"></p>
+    `;
+  }
 }
 
-// Tool logic functions
+// TOOL LOGIC
 function calcMolarity() {
-  const mass = parseFloat(document.getElementById("mass").value);
-  const vol = parseFloat(document.getElementById("volume").value);
-  const mm = parseFloat(document.getElementById("mm").value);
-  const result = (mass / mm) / vol;
-  document.getElementById("molarityResult").innerText = `Molarity: ${result.toFixed(2)} M`;
-}
-
-function calcPH() {
-  const h = parseFloat(document.getElementById("hconc").value);
-  const result = -Math.log10(h);
-  document.getElementById("phResult").innerText = `pH: ${result.toFixed(2)}`;
-}
-
-function calcDNA() {
-  const ng = parseFloat(document.getElementById("dna_ng").value);
-  const len = parseInt(document.getElementById("dna_len").value);
-  const result = (ng / (len * 660)) * 1e6;
-  document.getElementById("dnaResult").innerText = `nM: ${result.toFixed(2)}`;
-}
-
-function calcNM() {
-  const nm = parseFloat(document.getElementById("dna_nm").value);
-  const len = parseInt(document.getElementById("dna_len2").value);
-  const result = (nm * len * 660) / 1e6;
-  document.getElementById("nmResult").innerText = `ng/μL: ${result.toFixed(2)}`;
+  const mol = parseFloat(document.getElementById("mol").value);
+  const vol = parseFloat(document.getElementById("vol").value);
+  if (!mol || !vol) return alert("Please enter valid values.");
+  const result = mol / vol;
+  document.getElementById("molarity-result").innerText = `Molarity: ${result.toFixed(3)} M`;
 }
 
 function calcDilution() {
   const c1 = parseFloat(document.getElementById("c1").value);
   const v1 = parseFloat(document.getElementById("v1").value);
   const c2 = parseFloat(document.getElementById("c2").value);
+  if (!c1 || !v1 || !c2) return alert("Please enter valid values.");
   const v2 = (c1 * v1) / c2;
-  document.getElementById("dilutionResult").innerText = `V2: ${v2.toFixed(2)} L`;
+  document.getElementById("dilution-result").innerText = `V2 = ${v2.toFixed(2)} units`;
 }
 
-function convTemp() {
-  const c = parseFloat(document.getElementById("celsius").value);
-  const f = (c * 9/5) + 32;
-  document.getElementById("tempResult").innerText = `${f.toFixed(1)} °F`;
+function convertTemp() {
+  const temp = parseFloat(document.getElementById("tempInput").value);
+  const type = document.getElementById("tempUnit").value;
+  if (isNaN(temp)) return alert("Enter a valid temperature!");
+
+  let result;
+  if (type === "CtoF") result = (temp * 9/5) + 32;
+  else result = (temp - 32) * 5/9;
+
+  document.getElementById("temp-result").innerText = `Converted: ${result.toFixed(2)}°`;
 }
 
-function serialDil() {
-  const start = parseFloat(document.getElementById("sConc").value);
-  const factor = parseFloat(document.getElementById("dFactor").value);
-  const steps = parseInt(document.getElementById("sSteps").value);
-  let result = "";
-  for (let i = 0; i <= steps; i++) {
-    result += `Step ${i}: ${start / Math.pow(factor, i)}<br>`;
-  }
-  document.getElementById("serialResult").innerHTML = result;
-}
-
-function massToMoles() {
-  const m = parseFloat(document.getElementById("massInput").value);
-  const mm = parseFloat(document.getElementById("molMass").value);
-  const result = m / mm;
-  document.getElementById("massResult").innerText = `${result.toFixed(3)} mol`;
-}
-
-function volConc() {
-  const mol = parseFloat(document.getElementById("vmole").value);
-  const vol = parseFloat(document.getElementById("vvol").value);
-  const result = mol / vol;
-  document.getElementById("volumeResult").innerText = `${result.toFixed(2)} M`;
+function resetTool() {
+  loadTool(); // reloads the tool UI
 }
