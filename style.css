@@ -76,3 +76,21 @@ select, input, button {
   margin-top: 10px;
 }
 
+#tool-container input {
+  margin: 5px 0;
+  display: block;
+}
+
+#tool-container button {
+  background-color: #52b788;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+#tool-container button:hover {
+  background-color: #40916c;
+}
