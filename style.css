@@ -1,96 +1,72 @@
 body {
   font-family: 'Segoe UI', sans-serif;
-  background-color: #f0fff4;
-  color: #1b4332;
   margin: 0;
   padding: 0;
+  background: #f4fdf4;
+  color: #333;
 }
 
 header {
-  display: flex;
-  align-items: center;
-  background-color: #95d5b2;
-  padding: 10px 20px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  text-align: center;
+  padding: 1em;
+  background-color: #2e7d32;
+  color: white;
 }
 
-#logo {
+.logo {
   height: 60px;
-  margin-right: 15px;
-}
-
-header h1 {
-  margin: 0;
-  font-size: 28px;
-  color: #1b4332;
 }
 
 .tagline {
-  font-size: 14px;
-  color: #2d6a4f;
+  font-style: italic;
 }
 
-main {
-  padding: 20px;
+.tool-selector {
+  text-align: center;
+  margin: 20px;
 }
 
-.timer-section, .calculator-section {
-  background-color: #d8f3dc;
-  padding: 20px;
-  border-radius: 12px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.timer-controls input {
-  width: 60px;
-  margin: 5px;
-}
-
-.timer-controls button {
-  margin: 5px;
-  padding: 5px 10px;
-  background-color: #52b788;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.timer-controls button:hover {
-  background-color: #40916c;
-}
-
-.timer-display {
-  font-size: 2em;
-  margin-top: 10px;
-  font-weight: bold;
-  color: #081c15;
-}
-
-select, input, button {
+select {
+  padding: 10px;
   font-size: 16px;
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+}
+
+#calculator-container {
+  max-width: 500px;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+}
+
+input, select, button {
+  width: 100%;
   margin-top: 10px;
+  padding: 10px;
+  font-size: 16px;
 }
 
-#tool-container input {
-  margin: 5px 0;
-  display: block;
-}
-
-#tool-container button {
-  background-color: #52b788;
+button {
+  background-color: #2e7d32;
   color: white;
   border: none;
-  padding: 8px 12px;
-  border-radius: 6px;
   cursor: pointer;
-  margin-top: 10px;
+  border-radius: 5px;
 }
 
-#tool-container button:hover {
-  background-color: #40916c;
+button:hover {
+  background-color: #1b5e20;
+}
+
+.result {
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+footer {
+  text-align: center;
+  padding: 10px;
+  background-color: #e0f2f1;
+  margin-top: 30px;
 }
