@@ -100,120 +100,167 @@ const tools = {
     calculate: ([stock, final, volume]) => ((+final * +volume) / +stock).toFixed(2),
     unit: "mL of Stock"
   },
-  mediaPrep: {
-    name: "Media Preparation Calculator",
-    icon: "test-tube-2",
-    description: "Calculate how much solute to weigh for percent solutions.",
-    inputs: ["Desired % (w/v)", "Final Volume (mL)"],
-    calculate: ([percent, vol]) => ((+percent * +vol) / 100).toFixed(2),
-    unit: "grams"
-  },
-  unitConverter: {
-    name: "Unit Converter",
-    icon: "ruler",
-    description: "Convert between units like mL to µL, g to mg, etc.",
-    inputs: ["Value", "From (g/mg/µL/mL)", "To (g/mg/µL/mL)"],
-    calculate: ([value, from, to]) => {
-      const table = {
-        g: 1, mg: 1e-3, µg: 1e-6,
-        mL: 1, µL: 1e-3
-      };
-      return ((+value * table[from]) / table[to]).toExponential(3);
-    },
-    unit: "Converted"
-  },
-  cmv: {
-    name: "Conc ⇌ Mass ⇌ Volume Tool",
-    icon: "scales",
-    description: "Input any 2 of concentration (mg/mL), mass (mg), volume (mL) to calculate the third.",
-    inputs: ["Concentration (mg/mL)", "Mass (mg)", "Volume (mL)"],
-    calculate: ([conc, mass, vol]) => {
-      if (!conc) return (mass / vol).toFixed(2) + " mg/mL";
-      if (!mass) return (conc * vol).toFixed(2) + " mg";
-      if (!vol) return (mass / conc).toFixed(2) + " mL";
-      return "Leave one field empty to calculate it.";
-    },
-    unit: "Result"
-  }
-};
+// script.js
 
-// === DOM Elements ===
-const toolSelect = document.getElementById("tool-select");
-const toolArea = document.getElementById("tool-area");
-const toolDescription = document.getElementById("tool-description");
+document.addEventListener("DOMContentLoaded", function () {
+  const toolSelector = document.getElementById("tool");
+  const calculator = document.getElementById("calculator");
+  const toolInfo = document.getElementById("tool-info");
 
-// === Populate Dropdown ===
-for (let key in tools) {
-  const opt = document.createElement("option");
-  opt.value = key;
-  opt.textContent = tools[key].name;
-  toolSelect.appendChild(opt);
-}
-
-// === Load Selected Tool ===
-toolSelect.addEventListener("change", () => loadTool(toolSelect.value));
-function loadTool(key) {
-  const tool = tools[key];
-  toolArea.innerHTML = "";
-  toolDescription.textContent = tool.description;
-
-  const form = document.createElement("div");
-  form.className = "tool-form";
-
-  const inputElems = [];
-  tool.inputs.forEach((label, idx) => {
-    const input = document.createElement("input");
-    input.placeholder = label;
-    input.setAttribute("title", label);
-    input.id = `input-${idx}`;
-    form.appendChild(input);
-    inputElems.push(input);
+  toolSelector.addEventListener("change", function () {
+    loadTool(this.value);
   });
 
-  const result = document.createElement("p");
-  result.id = "result";
-
-  const btn = document.createElement("button");
-  btn.textContent = "Calculate";
-  btn.onclick = () => {
-    const values = inputElems.map(inp => inp.value.trim());
-    const output = tool.calculate(values);
-    result.innerHTML = `<strong>Result:</strong> ${output} ${tool.unit}`;
-  };
-
-  form.appendChild(btn);
-  form.appendChild(result);
-  toolArea.appendChild(form);
-}
-
-// === Initial Load ===
-loadTool(toolSelect.value);
-
-// === Timer Function ===
-function startTimer() {
-  const h = +document.getElementById("hours").value || 0;
-  const m = +document.getElementById("minutes").value || 0;
-  const s = +document.getElementById("seconds").value || 0;
-  const label = document.getElementById("timer-label").value || "Timer";
-  const output = document.getElementById("timer-output");
-  const sound = document.getElementById("timer-sound");
-
-  let total = h * 3600 + m * 60 + s;
-  if (total === 0) {
-    alert("Please enter a valid time.");
-    return;
+  function loadTool(tool) {
+    calculator.innerHTML = "";
+    toolInfo.innerHTML = "";
+    switch (tool) {
+      case "molarity":
+        toolInfo.innerHTML = "<p>Calculate molarity (mol/L) using mass, volume, and molar mass.</p>";
+        calculator.innerHTML = `
+          <label>Mass (g): <input type="number" id="mass"></label>
+          <label>Volume (L): <input type="number" id="volume"></label>
+          <label>Molar Mass (g/mol): <input type="number" id="molarMass"></label>
+          <button onclick="calcMolarity()">Calculate</button>
+          <p id="result"></p>
+        `;
+        break;
+      case "dilution":
+        toolInfo.innerHTML = "<p>Calculate final concentration or volume using C1V1 = C2V2.</p>";
+        calculator.innerHTML = `
+          <label>C1 (initial conc): <input type="number" id="c1"></label>
+          <label>V1 (initial vol): <input type="number" id="v1"></label>
+          <label>C2 (final conc): <input type="number" id="c2"></label>
+          <button onclick="calcDilution()">Calculate V2</button>
+          <p id="result"></p>
+        `;
+        break;
+      case "serial":
+        toolInfo.innerHTML = "<p>Perform serial dilution calculations.</p>";
+        calculator.innerHTML = `
+          <label>Initial Conc: <input type="number" id="serialStart"></label>
+          <label>Dilution Factor: <input type="number" id="dilFactor"></label>
+          <label>Steps: <input type="number" id="steps"></label>
+          <button onclick="calcSerial()">Calculate</button>
+          <ul id="result"></ul>
+        `;
+        break;
+      case "ph":
+        toolInfo.innerHTML = "<p>Calculate pH from hydrogen ion concentration.</p>";
+        calculator.innerHTML = `
+          <label>[H<sup>+</sup>] (mol/L): <input type="number" id="hplus" step="any"></label>
+          <button onclick="calcPH()">Calculate pH</button>
+          <p id="result"></p>
+        `;
+        break;
+      case "temp":
+        toolInfo.innerHTML = "<p>Convert between °C, °F, and K.</p>";
+        calculator.innerHTML = `
+          <label>From: <select id="fromTemp">
+            <option value="C">°C</option>
+            <option value="F">°F</option>
+            <option value="K">K</option>
+          </select></label>
+          <label>To: <select id="toTemp">
+            <option value="C">°C</option>
+            <option value="F">°F</option>
+            <option value="K">K</option>
+          </select></label>
+          <label>Value: <input type="number" id="tempVal"></label>
+          <button onclick="convertTemp()">Convert</button>
+          <p id="result"></p>
+        `;
+        break;
+      case "timer":
+        toolInfo.innerHTML = "<p>Set a countdown timer with sound notification.</p>";
+        calculator.innerHTML = `
+          <label>Hours: <input type="number" id="hours" value="0"></label>
+          <label>Minutes: <input type="number" id="minutes" value="0"></label>
+          <label>Seconds: <input type="number" id="seconds" value="0"></label>
+          <button onclick="startTimer()">Start Timer</button>
+          <p id="timerDisplay"></p>
+        `;
+        break;
+      default:
+        toolInfo.innerHTML = "<p>Select a tool to get started.</p>";
+    }
   }
 
-  const interval = setInterval(() => {
-    const hh = String(Math.floor(total / 3600)).padStart(2, '0');
-    const mm = String(Math.floor((total % 3600) / 60)).padStart(2, '0');
-    const ss = String(total % 60).padStart(2, '0');
-    output.textContent = `${label}: ${hh}:${mm}:${ss}`;
-    if (--total < 0) {
-      clearInterval(interval);
-      output.textContent = `${label} is done!`;
-      sound.play();
-      alert(`${label} finished!`);
+  loadTool(toolSelector.value); // Load initial tool on page load
+});
+
+function calcMolarity() {
+  const m = parseFloat(document.getElementById("mass").value);
+  const v = parseFloat(document.getElementById("volume").value);
+  const mm = parseFloat(document.getElementById("molarMass").value);
+  const molarity = m / (mm * v);
+  document.getElementById("result").textContent = `Molarity = ${molarity.toFixed(4)} mol/L`;
+}
+
+function calcDilution() {
+  const c1 = parseFloat(document.getElementById("c1").value);
+  const v1 = parseFloat(document.getElementById("v1").value);
+  const c2 = parseFloat(document.getElementById("c2").value);
+  const v2 = (c1 * v1) / c2;
+  document.getElementById("result").textContent = `Required V2 = ${v2.toFixed(4)} units`;
+}
+
+function calcSerial() {
+  const start = parseFloat(document.getElementById("serialStart").value);
+  const factor = parseFloat(document.getElementById("dilFactor").value);
+  const steps = parseInt(document.getElementById("steps").value);
+  const ul = document.getElementById("result");
+  ul.innerHTML = "";
+  let value = start;
+  for (let i = 0; i < steps; i++) {
+    const li = document.createElement("li");
+    li.textContent = `Step ${i + 1}: ${value.toExponential(4)}`;
+    ul.appendChild(li);
+    value /= factor;
+  }
+}
+
+function calcPH() {
+  const h = parseFloat(document.getElementById("hplus").value);
+  const ph = -Math.log10(h);
+  document.getElementById("result").textContent = `pH = ${ph.toFixed(2)}`;
+}
+
+function convertTemp() {
+  const from = document.getElementById("fromTemp").value;
+  const to = document.getElementById("toTemp").value;
+  let val = parseFloat(document.getElementById("tempVal").value);
+  let result;
+  if (from === to) result = val;
+  else if (from === "C" && to === "F") result = val * 9 / 5 + 32;
+  else if (from === "C" && to === "K") result = val + 273.15;
+  else if (from === "F" && to === "C") result = (val - 32) * 5 / 9;
+  else if (from === "F" && to === "K") result = (val - 32) * 5 / 9 + 273.15;
+  else if (from === "K" && to === "C") result = val - 273.15;
+  else if (from === "K" && to === "F") result = (val - 273.15) * 9 / 5 + 32;
+  document.getElementById("result").textContent = `Converted = ${result.toFixed(2)} °${to}`;
+}
+
+function startTimer() {
+  let h = parseInt(document.getElementById("hours").value);
+  let m = parseInt(document.getElementById("minutes").value);
+  let s = parseInt(document.getElementById("seconds").value);
+  let total = h * 3600 + m * 60 + s;
+  const display = document.getElementById("timerDisplay");
+  const audio = document.getElementById("timer-sound");
+
+  const timer = setInterval(() => {
+    if (total <= 0) {
+      clearInterval(timer);
+      display.textContent = "Time's up!";
+      audio.play();
+      return;
     }
+    const hrs = Math.floor(total / 3600);
+    const mins = Math.floor((total % 3600) / 60);
+    const secs = total % 60;
+    display.textContent = `${hrs}h ${mins}m ${secs}s`;
+    total--;
   }, 1000);
 }
+
