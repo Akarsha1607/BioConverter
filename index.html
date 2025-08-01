@@ -2,55 +2,48 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BioConverter</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter&family=Nunito:wght@600&display=swap" rel="stylesheet" />
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
 </head>
 <body>
   <header>
-    <img src="assets/bioconverter-logo.png" alt="BioConverter Logo" class="logo" />
+    <img src="bioconverter-logo.png" alt="BioConverter Logo" class="logo" />
     <h1>BioConverter</h1>
-    <p class="tagline">Calculator for science people</p>
+    <p class="tagline">🧪 Calculator for science people</p>
   </header>
 
   <main>
     <div class="tool-selector">
-      <label for="tool-select">Choose a tool:</label>
-      <select id="tool-select"></select>
+      <label for="tool">Select Tool:</label>
+      <select id="tool">
+        <option value="molarity">Molarity Calculator</option>
+        <option value="dilution">Dilution Calculator</option>
+        <option value="serial">Serial Dilution</option>
+        <option value="ph">pH Calculator</option>
+        <option value="temp">Temperature Converter</option>
+        <option value="dna">DNA Conc. Converter</option>
+        <option value="rna">RNA Conc. Converter</option>
+        <option value="protein">Protein Conc. Converter</option>
+        <option value="od">OD600 Calculator</option>
+        <option value="unit">Unit Converter</option>
+        <option value="cmv">Conc ⇌ Mass ⇌ Vol</option>
+        <option value="buffer">Buffer Dilution</option>
+        <option value="media">Media Prep</option>
+        <option value="timer">Set Timer</option>
+      </select>
     </div>
 
-    <div class="main-content">
-      <section class="tool-area" id="tool-area">
-        <!-- Dynamic tool content will be injected here -->
-      </section>
-
-      <aside class="tool-info" id="tool-info">
-        <h2>Tool Info</h2>
-        <p id="tool-description">Select a tool to see its description.</p>
-      </aside>
-    </div>
-
-    <section class="timer-section">
-      <h2>Set Timer</h2>
-      <div class="timer-inputs">
-        <input type="number" id="hours" placeholder="Hours" min="0" />
-        <input type="number" id="minutes" placeholder="Minutes" min="0" />
-        <input type="number" id="seconds" placeholder="Seconds" min="0" />
-        <input type="text" id="timer-label" placeholder="Label (optional)" />
-        <button onclick="startTimer()">Start</button>
-      </div>
-      <p id="timer-output"></p>
-    </section>
+    <section id="tool-info"></section>
+    <section id="calculator"></section>
   </main>
 
   <footer>
-    <p>Built with ❤ by Akarsha | <a href="https://github.com">GitHub</a></p>
+    <p>BioConverter &mdash; Your Daily Lab Companion</p>
   </footer>
 
-  <audio id="timer-sound" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" preload="auto"></audio>
+  <audio id="timer-sound" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg"></audio>
   <script src="script.js"></script>
 </body>
 </html>
