@@ -2,53 +2,55 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BioConverter</title>
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BioConverter — Your Daily Lab Companion</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
 </head>
 <body>
   <header>
-    <img src="bioconverter-logo.png" alt="BioConverter Logo" class="logo"/>
+    <img src="bioconverter-logo.png" alt="BioConverter Logo" class="logo" />
     <h1>BioConverter</h1>
     <p class="tagline">Calculator for science people</p>
   </header>
 
   <main>
     <section class="tool-section">
-      <label for="tool-select">Choose a Calculator:</label>
+      <label for="tool-select">Choose a calculator:</label>
       <select id="tool-select">
-        <option value="">-- Select Tool --</option>
         <option value="molarity">Molarity Calculator</option>
-        <option value="dilution">Dilution Calculator</option>
+        <option value="dilution">C1V1 = C2V2</option>
         <option value="ph">pH Calculator</option>
         <option value="temperature">Temperature Converter</option>
-        <option value="dna">DNA Concentration</option>
-        <option value="rna">RNA Concentration</option>
-        <option value="protein">Protein Concentration</option>
-        <option value="serial">Serial Dilution</option>
-        <option value="cell">Cell Count Calculator</option>
-        <option value="buffer">Buffer Preparation</option>
-        <option value="mass">Mass ↔ Moles</option>
+        <option value="dna">DNA Concentration Converter</option>
+        <option value="serial">Serial Dilution Calculator</option>
+        <option value="massMole">Mass ⇄ Moles</option>
+        <option value="volumeMass">Volume ⇄ Mass</option>
+        <option value="ngConversion">ng ⇄ µM</option>
+        <option value="absorbance">Absorbance Calculator</option>
+        <option value="cell">Cell Count Converter</option>
       </select>
-      <div id="calculator-area"></div>
     </section>
 
-    <section id="timers">
+    <section id="calculator-container">
+      <!-- Dynamic Calculator UI Injected Here -->
+    </section>
+
+    <section id="timer-section">
       <h2>Set Timer</h2>
-      <form id="timer-form">
-        <input type="text" id="label" placeholder="Label (e.g., Incubation)" required />
-        <input type="number" id="hours" placeholder="Hrs" min="0" />
-        <input type="number" id="minutes" placeholder="Min" min="0" />
-        <input type="number" id="seconds" placeholder="Sec" min="0" />
-        <button type="submit">Add Timer</button>
-      </form>
-      <div id="timer-list"></div>
+      <div class="timer-inputs">
+        <input type="text" id="timer-name" placeholder="Label" />
+        <input type="number" id="hours" placeholder="HH" min="0" />
+        <input type="number" id="minutes" placeholder="MM" min="0" max="59" />
+        <input type="number" id="seconds" placeholder="SS" min="0" max="59" />
+        <button onclick="addTimer()">Add Timer</button>
+      </div>
+      <div id="timers"></div>
     </section>
   </main>
 
   <footer>
-    Made by Akarsha • BioConverter Project • 2025
+    <p>&copy; 2025 BioConverter by Akarsha. All rights reserved.</p>
   </footer>
 
   <script src="script.js"></script>
