@@ -2,52 +2,50 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>BioConverter</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
-  <link href="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="icon" href="favicon.ico" />
 </head>
 <body>
   <header>
-    <img src="bioconverter-logo.png" alt="BioConverter Logo" class="logo" />
+    <img src="bioconverter-logo.png" alt="BioConverter Logo" class="logo"/>
     <h1>BioConverter</h1>
-    <p class="tagline">BioConverter — Your Daily Lab Companion</p>
+    <p class="tagline">Calculator for science people</p>
   </header>
 
   <main>
-    <div class="tool-selector sticky">
+    <section class="tool-selector">
       <label for="tool">Select Tool:</label>
-      <select id="tool">
-        <option value="molarity">🧪 Molarity Calculator</option>
-        <option value="dilution">💧 Dilution Calculator</option>
-        <option value="serial">📉 Serial Dilution</option>
-        <option value="ph">⚗️ pH Calculator</option>
-        <option value="temp">🌡️ Temperature Converter</option>
-        <option value="dna">🧬 DNA Conc. Converter</option>
-        <option value="rna">🧬 RNA Conc. Converter</option>
-        <option value="protein">🧪 Protein Conc. Converter</option>
-        <option value="od">🔬 OD600 Calculator</option>
-        <option value="unit">📏 Unit Converter</option>
-        <option value="cmv">🔄 Conc ⇌ Mass ⇌ Vol</option>
-        <option value="buffer">🧫 Buffer Dilution</option>
-        <option value="media">🥼 Media Prep</option>
-        <option value="timer">⏱️ Set Timer</option>
+      <select id="tool" onchange="showCalculator(this.value)">
+        <option value="">-- Choose a Calculator --</option>
+        <option value="molarity">Molarity</option>
+        <option value="dilution">Dilution</option>
+        <option value="ph">pH</option>
+        <option value="temperature">Temperature</option>
+        <option value="dna">DNA Conc.</option>
+        <option value="serial">Serial Dilution</option>
+        <option value="unit">Unit Conversion</option>
+        <option value="cell">Cell Count</option>
+        <option value="protein">Protein Conc.</option>
       </select>
-    </div>
-
-    <section id="tool-info" class="collapsible">
-      <button id="toggle-info">Hide Info</button>
-      <div class="info-content"></div>
     </section>
+
+    <section id="tool-info"></section>
+
     <section id="calculator"></section>
+
+    <section id="timetrack">
+      <h2>Set Timers</h2>
+      <div id="timers"></div>
+      <button onclick="addTimer()">+ Add Timer</button>
+    </section>
   </main>
 
   <footer>
-    <p>BioConverter — Your Daily Lab Companion</p>
+    &copy; 2025 BioConverter. All rights reserved.
   </footer>
 
-  <audio id="timer-sound" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg"></audio>
   <script src="script.js"></script>
 </body>
 </html>
